@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import LandingPage from './components/LandingPage';
+import TaskPage from './components/Task/TaskPage';
+import CategoriesPage from './components/Category/CategoriesPage';
+import AddTask from './components/Task/AddTask';
+import HomePage from './components/HomePage';
+import LogIn from './components/authentication/LogIn';
+import SignUp from './components/authentication/SignUp';
+import ForgotPassword from './components/ForgetPassword/ForgotPassword';
+import Done from './components/Status/Done';
+import Inprogress from './components/Status/Inprogress';
+import Notyet from './components/Status/Notyet';
+import UpdateTask from './components/Task/UpdateTask';
+import TasksInCategory from './components/Category/TasksInCategory';
+import ProtectedRoute from './components/ProtectedRoute';
+import Unauthorized from './components/Unauthorized';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='bg-white'>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/unauthorize" element={<Unauthorized />} />
+        <Route path="/home" element={<ProtectedRoute element={HomePage} />} />
+        <Route path="/home/tasks" element={<ProtectedRoute element={TaskPage} />} />
+        <Route path="/home/tasks/category/:category_id" element={<ProtectedRoute element={TasksInCategory} />} />
+        <Route path="/home/tasks/add" element={<ProtectedRoute element={AddTask} />} />
+        <Route path="/home/tasks/update/:taskId" element={<ProtectedRoute element={UpdateTask} />} />
+        <Route path="/home/categories" element={<ProtectedRoute element={CategoriesPage} />} />
+        <Route path="/home/status/done" element={<ProtectedRoute element={Done} />} />
+        <Route path="/home/status/inprogress" element={<ProtectedRoute element={Inprogress} />} />
+        <Route path="/home/status/notyet" element={<ProtectedRoute element={Notyet} />} />
+        <Route path="*" element={<NotFound/>} /> 
+      </Routes>
     </div>
   );
 }
