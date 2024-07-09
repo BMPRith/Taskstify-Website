@@ -8,60 +8,88 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
-    
+
     useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setUser({ name: decodedToken.name, email: decodedToken.sub });
-      navigate('/home');
-    }
-  },[]);
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUser({ name: decodedToken.name, email: decodedToken.sub });
+            navigate('/home');
+        }
+    }, []);
+
     const login = async (email, password, rememberMe) => {
         try {
             const response = await axios.post('/home/login', { email, password, rememberMe });
             const { name: userName, token, email: userEmail } = response.data.payload;
-            if (rememberMe) {
-                localStorage.setItem('token', token);
-            } else{
-                localStorage.setItem('token', token);
-            }
+            localStorage.setItem('token', token);
             setUser({ name: userName, email: userEmail });
+            navigate('/home');
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 throw new Error('EMAIL_NOT_FOUND');
             } else if (error.response && error.response.status === 401) {
                 throw new Error('INCORRECT_PASSWORD');
             } else {
-                throw new Error('Login Failed'); 
+                throw new Error('Login Failed');
             }
         }
     };
 
     const signup = async (name, email, password) => {
         try {
-            const response = await axios.post('/home/register', { name, email, password });
-            const {name: userName, email: userEmail } = response.data.payload;
-            setUser({name: userName,  email: userEmail });
+            await axios.post('/home/register', { name, email, password });
+            navigate('/email-verify', { state: { email } });
         } catch (error) {
-            if(error.response && error.response.status === 409){
+            if (error.response && error.response.status === 409) {
                 throw new Error('EMAIL_TAKEN');
-            } else{
+            } else {
                 throw new Error('Signup failed');
-            }          
+            }
         }
     };
 
+    const verifyEmail = async (email, code) => {
+        try {
+            const response = await axios.post('/home/verify-email', { email, code });
+            return response.data;
+        } catch (error) {
+            if (error.response && error.response.status === 410) {
+                throw new Error('CODE_EXPIRED');
+            } else if (error.response && error.response.status === 400) {
+                throw new Error('INVALID_CODE');
+            } else {
+                throw new Error('VERIFICATION_FAILED');
+            }
+        }
+    };
+
+    const forgotPassword = async (email) => {
+        try {
+            const response = await axios.post('/home/forgot-password', { email }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                navigate('/email-sending');
+            }
+        } catch (error) {
+            throw new Error('Email not found');
+        }
+    };
+    
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
     };
 
+
     return (
-        <AuthContext.Provider value={{ user, login, signup, logout }}>
+        <AuthContext.Provider value={{ user, login, signup, verifyEmail, forgotPassword, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export { AuthProvider, AuthContext };
+export { AuthContext, AuthProvider };

@@ -3,15 +3,21 @@ import signin from '../../assets/Log In.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import hide from '../../assets/eye.png';
+import unhide from '../../assets/view.png';
 import * as Yup from 'yup';
 
 const LogIn = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleRememberMe = () => {
     setRememberMe(!rememberMe)
   };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+};
   return (
     <div className="min-h-screen font-rubik flex items-center justify-center">
       <div className="flex w-full max-w-4xl rounded-lg">
@@ -57,12 +63,25 @@ const LogIn = () => {
                 <label htmlFor="password" className="block text-gray-800 text-sm font-semibold mb-2">
                   Password
                 </label>
-                <Field
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-800"
-                />
+                <div className="relative">
+                                <Field
+                                    type={showPassword ? 'text' : 'password'}
+                                    id="password"
+                                    name="password"
+                                    className="shadow border rounded w-full py-2 px-3 bg-white text-gray-700"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute inset-y-0 right-0 px-3 py-2 focus:outline-none"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <img src={unhide} width={20}/>
+                                    ) : (
+                                        <img src={hide} width={20}/>
+                                    )}
+                                </button>
+                            </div>
                 <ErrorMessage name="password" component="div" className="text-red-500 font-medium text-sm mt-1" />
               </div>
               <div className='mt-5 flex justify-between'>
@@ -81,7 +100,7 @@ const LogIn = () => {
                   <span className="text-gray-800 font-medium">Remember Me</span>
                 </label>
               </div>
-                <Link to='#'>
+                <Link to='/forgot-password'>
                   <span className='text-yellow-500 font-medium hover:text-yellow-800 pl-1'>Forgot Password?</span>
                 </Link> 
               </div>
@@ -90,12 +109,12 @@ const LogIn = () => {
                   type="submit"
                   className="bg-yellow-500 shadow hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded w-full"
                 >
-                  Log In
+                  Login
                 </button>
               </div>
               <p className='mt-5 text-center text-gray-800'>Don't Have An Account Yet? 
                 <Link to='/signup'>
-                  <span className='text-yellow-500 font-medium hover:text-yellow-800 pl-1'>Sign up</span>
+                  <span className='text-yellow-500 font-medium hover:text-yellow-800 pl-1'>Signup</span>
                 </Link>
               </p>
             </Form>

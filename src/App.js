@@ -7,6 +7,7 @@ import AddTask from './components/Task/AddTask';
 import HomePage from './components/HomePage';
 import LogIn from './components/authentication/LogIn';
 import SignUp from './components/authentication/SignUp';
+import EmailVerify from './components/authentication/EmailVerify';
 import ForgotPassword from './components/ForgetPassword/ForgotPassword';
 import Done from './components/Status/Done';
 import Inprogress from './components/Status/Inprogress';
@@ -16,6 +17,10 @@ import TasksInCategory from './components/Category/TasksInCategory';
 import ProtectedRoute from './components/ProtectedRoute';
 import Unauthorized from './components/Unauthorized';
 import NotFound from './components/NotFound';
+import ResetPassword from './components/ForgetPassword/ResetPassword';
+import EmailSent from './components/ForgetPassword/EmailSent';
+import ChangePassword from './components/ForgetPassword/ChangePassword';
+import PasswordVerified from './components/authentication/PasswordVerified';
 
 function App() {
   return (
@@ -24,7 +29,12 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/email-sending" element={<EmailSent />} />
+        <Route path="/reset-password" element={<ChangePassword />} />
+        <Route path="/reset-password/success" element={<ResetPassword />} />
+        <Route path="/email-verify/success" element={<PasswordVerified />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/email-verify" element={<EmailVerify />} />
         <Route path="/unauthorize" element={<Unauthorized />} />
         <Route path="/home" element={<ProtectedRoute element={HomePage} />} />
         <Route path="/home/tasks" element={<ProtectedRoute element={TaskPage} />} />

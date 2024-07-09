@@ -1,7 +1,9 @@
 import React from 'react';
 import reset from '../../assets/Reset.png';
 import { useNavigate } from 'react-router-dom';
-const ResetPassword = () => {
+
+
+const PasswordVerified = () => {
   const navigate = useNavigate();
   const handleNavigate = () =>{
     navigate('/login')
@@ -11,8 +13,8 @@ const ResetPassword = () => {
       <div className="w-full max-w-2xl md:max-w-xl sm:max-w-lg shadow-xl rounded-lg">
         <div className="m-8 flex flex-col items-center">
           <img src={reset} alt="Email Icon" width={50}/>
-          <p className="text-4xl text-yellow-500 md:text-3xl sm:text-2xl font-medium text-center mt-4">Password Changed</p>
-          <p className="text-sm font-medium text-gray-700 text-center mt-4">Your New Password Has Been Successfully Reset, Click Below To Login.</p>
+          <p className="text-4xl text-yellow-500 md:text-3xl sm:text-2xl font-medium text-center mt-4">Account Verified</p>
+          <p className="text-sm font-medium text-gray-700 text-center mt-4">Your Account Has Been Successfully Verify, Click Below To Login.</p>
           <div className="max-w-md w-full">
             <div className="flex items-center mt-6 justify-center">
               <button
@@ -30,4 +32,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default PasswordVerified;

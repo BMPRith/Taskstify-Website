@@ -53,7 +53,8 @@ const CategoryCard = ({ category }) => {
         }
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (e) => {
+        e.stopPropagation();
         try {
             await axios.delete(`/user/categories/${category.id}`, {
                 withCredentials: true,
@@ -86,6 +87,10 @@ const CategoryCard = ({ category }) => {
         }
     };
 
+    const stopPropagation = (e) => {
+        e.stopPropagation();
+    };
+
     return (
         <div
             className={`w-64 shadow-lg rounded-xl mr-4 mb-4 flex flex-col justify-between ${
@@ -106,7 +111,7 @@ const CategoryCard = ({ category }) => {
                                     className='rounded-full bg-yellow-500 hover:bg-yellow-800 px-2 py-2'
                                     onClick={() => document.getElementById('create_modal').showModal()}
                                 >
-                                    <img src={plus} width={20} />
+                                    <img src={plus} width={20} alt="Create Category" />
                                 </button>
                                 <dialog id='create_modal' className="modal modal-middle">
                                     <div className="modal-box bg-white">
@@ -127,6 +132,7 @@ const CategoryCard = ({ category }) => {
                                                 <button
                                                     type="submit"
                                                     className="py-2 text-white bg-yellow-500 hover:bg-yellow-800 font-medium px-6 rounded-lg shadow-lg"
+                                                    onClick={stopPropagation} // Prevents accidental navigation
                                                 >
                                                     Create
                                                 </button>
@@ -151,8 +157,8 @@ const CategoryCard = ({ category }) => {
                             <div className='flex justify-between'>
                                 <p className='font-bold text-xl text-gray-800 mb-2'>{category.name}</p>
                                 <div className="dropdown">
-                                    <div tabIndex={0} role="button" className="text-gray-800" onClick={(e) => e.stopPropagation()}>
-                                        <img src={menu} width={20} />
+                                    <div tabIndex={0} role="button" className="text-gray-800" onClick={stopPropagation}>
+                                        <img src={menu} width={20} alt="Menu" />
                                     </div>
                                     <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
                                         <button
@@ -162,8 +168,8 @@ const CategoryCard = ({ category }) => {
                                                 document.getElementById(`update_modal_${category.id}`).showModal();
                                             }}
                                         >
-                                            <img src={note} width={18} />
-                                            <a>Update</a>
+                                            <img src={note} width={18} alt="Update" />
+                                            <span>Update</span>
                                         </button>
                                         <dialog id={`update_modal_${category.id}`} className="modal modal-middle">
                                             <div className="modal-box bg-white">
@@ -184,6 +190,7 @@ const CategoryCard = ({ category }) => {
                                                         <button
                                                             type="submit"
                                                             className="py-2 text-white bg-yellow-500 hover:bg-yellow-800 font-medium px-6 rounded-lg shadow-lg"
+                                                            onClick={stopPropagation}
                                                         >
                                                             Update
                                                         </button>
@@ -205,8 +212,8 @@ const CategoryCard = ({ category }) => {
                                                 document.getElementById(`delete_modal_${category.id}`).showModal();
                                             }}
                                         >
-                                            <img src={trash} width={18} />
-                                            <p className='pr-1'>Delete</p>
+                                            <img src={trash} width={18} alt="Delete" />
+                                            <span>Delete</span>
                                         </button>
                                         <dialog id={`delete_modal_${category.id}`} className="modal modal-middle">
                                             <div className="modal-box bg-white">
