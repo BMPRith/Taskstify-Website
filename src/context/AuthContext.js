@@ -9,13 +9,24 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
+    const isTokenExpired = (token) => {
+        if (!token) {
+            return true;
+        }
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        return decodedToken.exp < currentTime;
+    };
+
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            const decodedToken = jwtDecode(token);
-            setUser({ name: decodedToken.name, email: decodedToken.sub });
-            navigate('/home');
-        }
+            if (isTokenExpired(token)) {
+                logout();
+            } else{
+                const decodedToken = jwtDecode(token);
+                setUser({ name: decodedToken.name, email: decodedToken.sub });
+                // navigate('/home');
+            }
     }, []);
 
     const login = async (email, password, rememberMe) => {
@@ -64,6 +75,19 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    const resendVerify = async (email, code) => {
+        try {
+            await axios.post('/home/resend-verification-code', { email, code });
+            navigate('/email-verify', { state: { email } });
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                throw new Error('EMAIL_TAKEN');
+            } else {
+                throw new Error('Signup failed');
+            }
+        }
+    };
+
     const forgotPassword = async (email) => {
         try {
             const response = await axios.post('/home/forgot-password', { email }, {
@@ -86,7 +110,7 @@ const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, login, signup, verifyEmail, forgotPassword, logout }}>
+        <AuthContext.Provider value={{ user, login, signup, verifyEmail, resendVerify, forgotPassword, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -132,7 +132,7 @@ const CategoryCard = ({ category }) => {
                                                 <button
                                                     type="submit"
                                                     className="py-2 text-white bg-yellow-500 hover:bg-yellow-800 font-medium px-6 rounded-lg shadow-lg"
-                                                    onClick={stopPropagation} // Prevents accidental navigation
+                                                    onClick={stopPropagation} 
                                                 >
                                                     Create
                                                 </button>

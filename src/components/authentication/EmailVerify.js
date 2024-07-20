@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import emailIcon from '../../assets/Email.png';
 
 const EmailVerify = () => {
-    const { verifyEmail } = useContext(AuthContext);
+    const { verifyEmail, resendVerify } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
     const email = location.state?.email;
@@ -30,6 +30,14 @@ const EmailVerify = () => {
             }
         } finally {
             setSubmitting(false);
+        }
+    };
+
+    const handleResendCode = async () => {
+        try {
+            await resendVerify(email);
+        } catch (error) {
+            console.error('Error resending verification code:', error);
         }
     };
 
@@ -70,6 +78,9 @@ const EmailVerify = () => {
                                                 Verify
                                             </button>
                                         </div>
+                                            <p className="text-gray-800 text-sm font-medium mt-4 text-center">
+                                                Didn't get the code? <button className='underline text-yellow-500 hover:text-yellow-800' onClick={handleResendCode}>Resend</button>
+                                            </p>
                                     </Form>
                                 )}
                             </Formik>

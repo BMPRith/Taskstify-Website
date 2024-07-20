@@ -21,6 +21,7 @@ import ResetPassword from './components/ForgetPassword/ResetPassword';
 import EmailSent from './components/ForgetPassword/EmailSent';
 import ChangePassword from './components/ForgetPassword/ChangePassword';
 import PasswordVerified from './components/authentication/PasswordVerified';
+import Dashboard from './components/Admin/Dashboard';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/email-verify" element={<EmailVerify />} />
         <Route path="/unauthorize" element={<Unauthorized />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute element={Dashboard}/>} />
         <Route path="/home" element={<ProtectedRoute element={HomePage} />} />
         <Route path="/home/tasks" element={<ProtectedRoute element={TaskPage} />} />
         <Route path="/home/tasks/category/:category_id" element={<ProtectedRoute element={TasksInCategory} />} />

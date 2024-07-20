@@ -30,7 +30,7 @@ const TaskPage = () => {
   };
 
   return (
-    <div className="min-h-screen font-rubik">
+    <div className="min-h-full min-w-full font-rubik">
       <Sidebar />
       <div className="flex flex-col md:flex-row justify-between items-center md:ml-80 mx-4 md:mx-0">
         <p className="text-2xl font-bold text-gray-700 mb-4 mt-5 md:mb-0">My Tasks</p>

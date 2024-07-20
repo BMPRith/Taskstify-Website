@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 const ProtectedRoute = ({ element: Component, ...rest }) => {
   const { user } = useContext(AuthContext);
 
-  return user ? <Component {...rest} /> : <Navigate to="/unauthorize" />;
+  return user ? <Component {...rest} /> : <Navigate />;
 };
 
 export default ProtectedRoute;
