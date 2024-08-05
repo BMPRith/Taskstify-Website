@@ -22,7 +22,7 @@ const CategoriesPage = () => {
       }
     };
     fetchCategories();
-  }, [categories]);
+  }, []);
 
   return (
     <div className='h-screen font-rubik'>

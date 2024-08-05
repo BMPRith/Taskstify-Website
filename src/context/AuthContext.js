@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
             } else{
                 const decodedToken = jwtDecode(token);
                 setUser({ name: decodedToken.name, email: decodedToken.sub });
-                // navigate('/home');
+                navigate('/home');
             }
     }, []);
 
@@ -75,16 +75,12 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const resendVerify = async (email, code) => {
+    const resendVerify = async (email) => {
         try {
-            await axios.post('/home/resend-verification-code', { email, code });
-            navigate('/email-verify', { state: { email } });
+            const response = await axios.post('/home/resend-verification-code', { email });
+            console.log(response.data);
         } catch (error) {
-            if (error.response && error.response.status === 409) {
-                throw new Error('EMAIL_TAKEN');
-            } else {
-                throw new Error('Signup failed');
-            }
+            console.error('Failed to resend verification code:', error.response ? error.response.data : error.message);
         }
     };
 

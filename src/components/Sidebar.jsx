@@ -58,13 +58,13 @@ const Sidebar = () => {
               <img src={done} width={25} />
               {isOpen && <span className="text-lg text-gray-800 font-semibold ml-3 hover:text-gray-100">Done</span>}
             </Link>
-            <Link to="/admin/dashboard" className="mb-6 flex items-center">
-              <img src={admin} width={25} />
-              {isOpen && <span className="text-lg text-gray-800 font-semibold ml-3 hover:text-gray-100">Administractor</span>}
-            </Link>
             <Link to="/feedback" className="mb-6 flex items-center">
               <img src={feedback} width={25} />
               {isOpen && <span className="text-lg text-gray-800 font-semibold ml-3 hover:text-gray-100">Feedbacks</span>}
+            </Link>
+            <Link to="/admin/dashboard" className="mb-6 flex items-center">
+              <img src={admin} width={25} />
+              {isOpen && <span className="text-lg text-gray-800 font-semibold ml-3 hover:text-gray-100">Administractor</span>}
             </Link>
             <div className="flex items-center w-full" onClick={handleLogout}>
               <img src={userlogout} width={25} className='cursor-pointer'/>
@@ -74,7 +74,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className={`transition-transform duration-700 ease-in-out ${isOpen ? 'ml-64' : 'ml-25'}`}>
+      <div className={`transition-transform duration-500 ease-in-out ${isOpen ? 'ml-64' : 'ml-25'}`}>
          
       </div>
     </div>
